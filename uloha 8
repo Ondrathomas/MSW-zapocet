@@ -1,0 +1,34 @@
+def forward_difference(f, x, h):
+    """
+    Dopředná diferenciace funkce f v bodě x s krokem h.
+    """
+    return (f(x + h) - f(x)) / h
+
+def backward_difference(f, x, h):
+    """
+    Zpětná diferenciace funkce f v bodě x s krokem h.
+    """
+    return (f(x) - f(x - h)) / h
+
+def central_difference(f, x, h):
+    """
+    Centrální diferenciace funkce f v bodě x s krokem h.
+    """
+    return (f(x + h / 2) - f(x - h / 2)) / h
+
+#Příklad použití:
+def quadratic_function(x):
+    return x**2
+
+#Nastavení hodnoty kroku h
+h_value = 0.0001
+
+#Výpočet diferenciací
+forward_diff_result = forward_difference(quadratic_function, 2, h_value)
+backward_diff_result = backward_difference(quadratic_function, 2, h_value)
+central_diff_result = central_difference(quadratic_function, 2, h_value)
+
+#Výpis výsledků
+print(f"Dopředná diferenciace: {forward_diff_result}")
+print(f"Zpětná diferenciace: {backward_diff_result}")
+print(f"Centrální diferenciace: {central_diff_result}")
