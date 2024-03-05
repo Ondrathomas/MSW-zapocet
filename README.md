@@ -1,0 +1,1 @@
+zápočet z msw 
