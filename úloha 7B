@@ -1,0 +1,43 @@
+import random
+
+def draw_card():
+    return random.randint(1, 13)  # Karty mají hodnoty od 1 do 13
+
+def play_blackjack():
+    player_hand = [draw_card(), draw_card()]
+    dealer_hand = [draw_card(), draw_card()]
+    while sum(player_hand) < 21:
+        action = random.choice(['hit', 'stand'])
+        if action == 'hit':
+            player_hand.append(draw_card())
+        else:
+            break
+    while sum(dealer_hand) < 17:
+        dealer_hand.append(draw_card())
+    player_score = sum(player_hand)
+    dealer_score = sum(dealer_hand)
+    if player_score > 21 or (dealer_score <= 21 and dealer_score > player_score):
+        return 'lose'
+    elif player_score == dealer_score:
+        return 'push'
+    else:
+        return 'win'
+
+def simulate_blackjack(num_games):
+    wins = 0
+    pushes = 0
+    for _ in range(num_games):
+        result = play_blackjack()
+        if result == 'win':
+            wins += 1
+        elif result == 'push':
+            pushes += 1
+    win_percentage = wins / num_games * 100
+    push_percentage = pushes / num_games * 100
+    return win_percentage, push_percentage
+
+num_games = 1000000  # Počet simulovaných her
+
+win_percentage, push_percentage = simulate_blackjack(num_games)
+print(f"Pravděpodobnost výhry hráče: {win_percentage:.2f}%")
+print(f"Pravděpodobnost remízy: {push_percentage:.2f}%")
