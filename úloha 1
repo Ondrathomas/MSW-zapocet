@@ -1,0 +1,121 @@
+# Standardní Python
+def mean_native(arr):
+    return sum(arr) / len(arr)
+
+# NumPy
+import numpy as np
+
+def mean_numpy(arr):
+    return np.mean(arr)
+
+# Standardní Python
+def mean_native(arr):
+    return sum(arr) / len(arr)
+
+# NumPy
+import numpy as np
+
+def mean_numpy(arr):
+    return np.mean(arr)
+
+# Standardní Python
+def determinant_native(matrix):
+    size = len(matrix)
+    if size == 1:
+        return matrix[0][0]
+    elif size == 2:
+        return matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0]
+    else:
+        det = 0
+        for j in range(size):
+            det += ((-1) ** j) * matrix[0][j] * determinant_native([row[:j] + row[j+1:] for row in matrix[1:]])
+        return det
+
+# SymPy
+from sympy import Matrix
+
+def determinant_sympy(matrix):
+    return Matrix(matrix).det()
+
+# Standardní Python
+from math import sin
+
+def integrate_native():
+    # Jednoduchý integrál sin(x) od 0 do pi
+    a = 0
+    b = 3.14159
+    n = 100000
+    dx = (b - a) / n
+    integral = 0
+    for i in range(n):
+        x = a + i * dx
+        integral += sin(x) * dx
+    return integral
+
+# SciPy
+from scipy.integrate import quad
+
+def integrate_scipy():
+    # Jednoduchý integrál sin(x) od 0 do pi
+    return quad(sin, 0, 3.14159)[0]
+
+# Standardní Python
+def mean_complex_native(arr):
+    sum_real = sum([num.real for num in arr])
+    sum_imag = sum([num.imag for num in arr])
+    return complex(sum_real / len(arr), sum_imag / len(arr))
+
+# NumPy
+def mean_complex_numpy(arr):
+    return np.mean(arr)
+import timeit
+
+# Měření času pro výpočet průměru pole čísel
+arr = list(range(1000))
+
+time_native_mean = timeit.timeit("mean_native(arr)", setup="from __main__ import mean_native, arr", number=1000)
+time_numpy_mean = timeit.timeit("mean_numpy(arr)", setup="from __main__ import mean_numpy, arr; import numpy as np", number=1000)
+
+
+print("Výpočet průměru pole čísel:")
+print("Standardní Python:", time_native_mean)
+print("NumPy:", time_numpy_mean)
+
+# Měření času pro výpočet Fibonacciho posloupnosti
+n = 20
+
+time_recursive_fibonacci = timeit.timeit("fibonacci_recursive(n)", setup="from __main__ import fibonacci_recursive, n", number=1000)
+time_memoization_fibonacci = timeit.timeit("fibonacci_memoization(n)", setup="from __main__ import fibonacci_memoization, n", number=1000)
+
+print("\nVýpočet Fibonacciho posloupnosti:")
+print("Rekurze:", time_recursive_fibonacci)
+print("Rekurze s memoizací:", time_memoization_fibonacci)
+
+# Měření času pro výpočet determinantu matice
+matrix = [[1, 2], [3, 4]]
+
+time_native_determinant = timeit.timeit("determinant_native(matrix)", setup="from __main__ import determinant_native, matrix", number=1000)
+time_sympy_determinant = timeit.timeit("determinant_sympy(matrix)", setup="from __main__ import determinant_sympy, matrix", number=1000)
+
+print("\nVýpočet determinantu matice:")
+print("Standardní Python:", time_native_determinant)
+print("SymPy:", time_sympy_determinant)
+
+# Měření času pro výpočet určitého integrálu
+time_native_integration = timeit.timeit("integrate_native()", setup="from __main__ import integrate_native", number=1000)
+time_scipy_integration = timeit.timeit("integrate_scipy()", setup="from __main__ import integrate_scipy", number=1000)
+
+print("\nVýpočet určitého integrálu:")
+print("Standardní Python:", time_native_integration)
+print("SciPy:", time_scipy_integration)
+
+# Měření času pro výpočet průměru listu komplexních čísel
+complex_arr = [complex(i, i) for i in range(1000)]
+
+time_native_complex_mean = timeit.timeit("mean_complex_native(complex_arr)", setup="from __main__ import mean_complex_native, complex_arr", number=1000)
+time_numpy_complex_mean = timeit.timeit("mean_complex_numpy(complex_arr)", setup="from __main__ import mean_complex_numpy, complex_arr; import numpy as np", number=1000)
+
+print("\nVýpočet průměru listu komplexních čísel:")
+print("Standardní Python:", time_native_complex_mean)
+print("NumPy:", time_numpy_complex_mean)
+
