@@ -1,0 +1,52 @@
+import numpy as np
+import time
+import matplotlib.pyplot as plt
+
+def direct_method(matrix_size):
+    # Generování náhodné matice a pravé strany
+    A = np.random.rand(matrix_size, matrix_size)
+    b = np.random.rand(matrix_size)
+    
+    start_time = time.time()
+    # Přímá metoda pro řešení soustavy lineárních rovnic (např. Gaussova eliminace)
+    x = np.linalg.solve(A, b)
+    end_time = time.time()
+    
+    return end_time - start_time
+
+def iterative_method(matrix_size, max_iterations=1000, tolerance=1e-6):
+    # Generování náhodné matice a pravé strany
+    A = np.random.rand(matrix_size, matrix_size)
+    b = np.random.rand(matrix_size)
+    
+    x = np.zeros(matrix_size) # Počáteční aproximace
+    
+    start_time = time.time()
+    # Iterační metoda pro řešení soustavy lineárních rovnic (např. metoda relaxace)
+    for _ in range(max_iterations):
+        x_new = np.dot(A, x) + b
+        if np.allclose(x, x_new, atol=tolerance):
+            break
+        x = x_new
+    end_time = time.time()
+    
+    return end_time - start_time
+
+matrix_sizes = np.arange(10, 1000, 50)
+direct_times = []
+iterative_times = []
+
+for size in matrix_sizes:
+    direct_time = direct_method(size)
+    iterative_time = iterative_method(size)
+    direct_times.append(direct_time)
+    iterative_times.append(iterative_time)
+
+plt.plot(matrix_sizes, direct_times, label='Přímá metoda')
+plt.plot(matrix_sizes, iterative_times, label='Iterační metoda')
+plt.xlabel('Velikost matice')
+plt.ylabel('Čas (s)')
+plt.title('Porovnání časů řešení soustavy lineárních rovnic')
+plt.legend()
+plt.grid(True)
+plt.show()
