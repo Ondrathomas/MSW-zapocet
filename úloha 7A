@@ -1,0 +1,22 @@
+import random
+
+def f(x):
+    return x**2  # Například kvadratická funkce
+
+def monte_carlo_integration(f, a, b, n):
+    count_under_curve = 0
+    for _ in range(n):
+        x = random.uniform(a, b)
+        y = random.uniform(0, f(b))
+        if y <= f(x):
+            count_under_curve += 1
+    area_rectangle = (b - a) * f(b)
+    area_under_curve = (count_under_curve / n) * area_rectangle
+    return area_under_curve
+
+a = 0  # Dolní mez intervalu
+b = 1  # Horní mez intervalu
+n = 1000000  # Počet generovaných bodů
+
+estimated_area = monte_carlo_integration(f, a, b, n)
+print("Odhadnutá plocha pod křivkou:", estimated_area)
